@@ -1,0 +1,15 @@
+FROM ubuntu:latest
+
+# Update the package list and install Maven, Git, and JDK
+RUN apt update && \
+    apt install -y maven git openjdk-17-jdk
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Clone the repository
+RUN git clone https://github.com/Gayatri4857/api_gateway.git
+
+COPY api-gateway-0.0.1-SNAPSHOT.jar /app/api-gateway-0.0.1-SNAPSHOT.jar
+
+CMD ["java", "-jar", "api-gateway-0.0.1-SNAPSHOT.jar"]

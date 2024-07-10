@@ -1,0 +1,29 @@
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:11-jdk-slim
+
+# Set the environment variables for Maven
+ENV MAVEN_VERSION=3.8.6
+ENV MAVEN_HOME=/usr/share/maven
+
+# Install Maven
+RUN apt-get update \
+    && apt-get install -y wget \
+    && wget https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && tar -xzvf apache-maven-${MAVEN_VERSION}-bin.tar.gz -C /usr/share/ \
+    && mv /usr/share/apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} \
+    && ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn \
+    && rm apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Verify Maven installation
+RUN mvn -version
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the project files to the container
+COPY . /app
+
+# Run the application (customize this as per your project)
+CMD ["mvn", "clean", "install"]

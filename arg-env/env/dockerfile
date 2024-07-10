@@ -1,0 +1,8 @@
+FROM ubuntu:latest
+
+ARG USER
+ARG PASSWORD
+ENV DB_USER={USER}
+ENV DB_PASSWORD={PASSWORD}
+
+CMD ["/bin/blash"]

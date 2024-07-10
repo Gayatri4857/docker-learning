@@ -1,0 +1,19 @@
+# Use the latest Ubuntu image as base
+FROM ubuntu:latest
+
+# Update package list and install OpenJDK 17
+RUN apt-get update \
+    && apt-get install -y openjdk-17-jdk \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory inside the container
+WORKDIR /app
+
+# Set environment variable for MySQL root password
+ENV MYSQL_ROOT_PASSWORD=my-secret-pw
+
+# Copy the Java application JAR file to the container
+COPY hello-world/target/hello-world-0.0.1-SNAPSHOT.jar hello-world.jar
+
+# Specify the command to run your Java application
+ENTRYPOINT ["java", "-jar", "hello-world.jar"]

@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+
+# Update and install OpenJDK 17
+RUN apt-get update && apt-get install -y openjdk-17-jdk
+
+# Set environment variable for MySQL root password
+ENV MYSQL_ROOT_PASSWORD=my-secret-pw
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the jar file into the container
+COPY hello-world-0.0.1-SNAPSHOT.jar hello-world.jar
+
+# Set the entry point to run the jar file
+ENTRYPOINT ["java", "-jar", "hello-world.jar"]
